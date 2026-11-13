@@ -40271,7 +40271,67 @@ function parseClineModelsDev(value) {
       supportsImage
     });
   }
+  for (const [provKey, blockRaw] of Object.entries(root)) {
+    if (provKey === "cline-pass") continue;
+    if (typeof blockRaw !== "object" || blockRaw === null) continue;
+    const blockModels = blockRaw.models;
+    if (typeof blockModels !== "object" || blockModels === null) continue;
+    for (const [rawId, rawEntry] of Object.entries(blockModels)) {
+      if (rawId.length === 0) continue;
+      if (typeof rawEntry !== "object" || rawEntry === null) continue;
+      const entry = rawEntry;
+      const limit = typeof entry.limit === "object" && entry.limit !== null ? entry.limit : void 0;
+      const context = Number(limit?.context);
+      const modalities = typeof entry.modalities === "object" && entry.modalities !== null ? entry.modalities : void 0;
+      const input = modalities?.input;
+      const supportsImage = Array.isArray(input) && input.some((item) => typeof item === "string" && item.toLowerCase() === "image");
+      const name2 = typeof entry.name === "string" && entry.name.trim().length > 0 ? entry.name.trim() : void 0;
+      const id = `${provKey}/${rawId}`;
+      if (out.has(id)) continue;
+      out.set(id, {
+        id,
+        fillOnly: true,
+        ...name2 === void 0 ? {} : { name: name2 },
+        ...Number.isFinite(context) && context > 0 ? { contextWindow: Math.trunc(context) } : {},
+        supportsImage
+      });
+    }
+  }
   return out;
+}
+/**
+ * 在 models.dev 映射表里按 id 找到对应条目。
+ *
+ * 远端目录的 id 与 models.dev 的 id 不总是逐字相同，两处差异都会命中：
+ *  1. **后缀**：`:batch` / `:free` 等变体在 models.dev 里没有对应条目，需要去掉后再找。
+ *  2. **provider 前缀**：models.dev 的 provider 名可能自带斜杠（如 `novita-ai/apodex`），
+ *     而远端目录里只有末段（`apodex/apodex-1.1-mini`）—— 故按**尾部路径**匹配。
+ */
+function lookupDevModel(dev, modelId) {
+  const direct = dev.get(modelId);
+  if (direct !== void 0) return direct;
+  const variants = [];
+  let base = modelId;
+  const colon = base.indexOf(":");
+  if (colon > 0) {
+    base = base.slice(0, colon);
+    variants.push(base);
+  }
+  for (const variant of variants) {
+    const hit = dev.get(variant);
+    if (hit !== void 0) return hit;
+  }
+  // 尾部路径匹配：`apodex/apodex-1.1-mini` ← `novita-ai/apodex/apodex-1.1-mini`
+  for (const variant of [modelId, ...variants]) {
+    const tail = variant.split("/");
+    for (let cut = 1; cut < tail.length; cut += 1) {
+      const suffix = tail.slice(cut).join("/");
+      for (const [key, value] of dev) {
+        if (key === suffix || key.endsWith("/" + suffix)) return value;
+      }
+    }
+  }
+  return void 0;
 }
 function applyModelsDevCatalog(models, dev) {
   if (dev.size === 0) return [...models];
@@ -40284,6 +40344,7 @@ function applyModelsDevCatalog(models, dev) {
   };
   for (const [id, entry] of dev) {
     if (present.has(id)) continue;
+    if (entry.fillOnly === true) continue;
     const prefix = prefixOf(id);
     const bucket = pending.get(prefix) ?? [];
     bucket.push({
@@ -40300,7 +40361,7 @@ function applyModelsDevCatalog(models, dev) {
     lastIndexOfPrefix.set(prefixOf(model.id), index);
   });
   models.forEach((model, index) => {
-    const entry = dev.get(model.id);
+    const entry = dev.get(model.id) ?? lookupDevModel(dev, model.id);
     out.push(entry === void 0 ? model : {
       ...model,
       // 网关把 id 当名字下发时（`name === id`）才用可读名替换。
