@@ -1,5 +1,5 @@
 {
-  "version": "2.8.3",
+  "version": "2.8.5",
   "algorithm": "sha256",
   "files": [
     {
@@ -14,8 +14,8 @@
     },
     {
       "path": "client.js",
-      "size": 630274,
-      "sha256": "5735d4eec241b665f4ff0efd26449c53de33e6b345753893bf5ec99ed8be86f9"
+      "size": 664102,
+      "sha256": "470ec4508f1e530f55d7d699ff87d0fcf8672c69bb58ea606fad5504bb087a06"
     },
     {
       "path": "cordis.patch.yml",
@@ -29,8 +29,8 @@
     },
     {
       "path": "index.js",
-      "size": 137056,
-      "sha256": "0b6ad013a1cb57602cc256fbee38a03f2abcc6fe0cfe37acc7596cf2c73c3286"
+      "size": 142965,
+      "sha256": "2de88e911c9e8317c4dd38232471c03c1f118336e080cf87b8b70992016ffdf9"
     },
     {
       "path": "LICENSE",
@@ -50,7 +50,7 @@
     {
       "path": "package.json",
       "size": 5208,
-      "sha256": "d717e757e7c9358b5c7f5dcfcb3f5313564d677e7e3e1e75ef60dec03ee1839b"
+      "sha256": "bd96d8ae7431a07d0012e9ed0661aac78fcb1b2134bacf1847ac63e18d2ca461"
     },
     {
       "path": "src/adapter.js",
@@ -74,8 +74,8 @@
     },
     {
       "path": "src/catalog.js",
-      "size": 37765,
-      "sha256": "2860d311d3b1c4e6529afd836f50a3ffded89238aced3b36fb33167299177c06"
+      "size": 44164,
+      "sha256": "3ff5e01a09c87e23e4fd815d180575094223350225aa2c1996c9da77a47169a5"
     },
     {
       "path": "src/chan-relay.js",
@@ -184,8 +184,8 @@
     },
     {
       "path": "src/feed.js",
-      "size": 13779,
-      "sha256": "c0bdd7d6e15e82addce05757407441c72a4dd56925fe4aa22111512bf144d555"
+      "size": 24206,
+      "sha256": "dfa391089200fd5b0ea7605f83d2694b8b12715765a362da7155aceb7f7765c9"
     },
     {
       "path": "src/forward.js",
@@ -244,8 +244,8 @@
     },
     {
       "path": "src/model-test.js",
-      "size": 5090,
-      "sha256": "2afc982c5d74aa345656536f98240b45c5aa6d676a796ffb8be87785dda78da7"
+      "size": 16800,
+      "sha256": "a246b8efa330709b91bfa8b083ff00d8f64704960705647855669f3d7a41b366"
     },
     {
       "path": "src/o2a.js",
@@ -264,8 +264,8 @@
     },
     {
       "path": "src/plugins.js",
-      "size": 46841,
-      "sha256": "4d5c716b17bb56c4e180f7f1f9ab6ac4c16142c58eb3ad82c56eb45e2332d9e0"
+      "size": 46875,
+      "sha256": "b67f8e9ff52c80f61abe590067e64d74a1ff9e75ced58c97eaf0707487b1b989"
     },
     {
       "path": "src/probe.js",
@@ -309,8 +309,8 @@
     },
     {
       "path": "src/store.js",
-      "size": 26019,
-      "sha256": "8f3d39d2c23bc571c9b5a59a5bccc7ec5d5a8afa9e0835774282295e89100f11"
+      "size": 26504,
+      "sha256": "aef3b5a819a7d41ed27412fd8a8461e80aeaf54bb7cd34ad0f911f18501e6817"
     },
     {
       "path": "src/stream.js",
